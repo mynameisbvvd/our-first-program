@@ -4,5 +4,10 @@ using namespace std;
 
 int main()
 {
-    cout<<"none";
+    int n=0;
+    cin>>n;
+    for(int i=0;i<n;i++)
+    {
+        cout<<"bvvd don't have mum.";
+    }
 }
