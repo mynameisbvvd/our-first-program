@@ -1,0 +1,969 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', 'SimHei', Arial, sans-serif;
+    background: linear-gradient(135deg, #8B0000 0%, #DC143C 50%, #FF4500 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 烟花画布 */
+#fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 主容器 */
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 灯笼 */
+.lantern {
+    position: fixed;
+    top: -20px;
+    width: 80px;
+    height: 100px;
+    background: linear-gradient(180deg, #FFD700 0%, #FF6B00 100%);
+    border-radius: 50% 50% 40% 40%;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+    animation: swing 3s ease-in-out infinite;
+    z-index: 3;
+}
+
+.lantern::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 30px;
+    background: linear-gradient(180deg, #FFD700 0%, #FF6B00 100%);
+    border-radius: 5px 5px 0 0;
+}
+
+.lantern::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 40px;
+    background: #FFD700;
+}
+
+.lantern-left {
+    left: 50px;
+    animation-delay: 0s;
+}
+
+.lantern-right {
+    right: 50px;
+    animation-delay: 1.5s;
+}
+
+@keyframes swing {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+/* 标题区域 */
+.header {
+    text-align: center;
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
+/* 用户权限显示 12*/
+.user-role-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 25px;
+    background: rgba(255, 215, 0, 0.15);
+    border: 2px solid #FFD700;
+    border-radius: 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.role-label {
+    color: #FFD700;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.role-value {
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 4px 15px;
+    border-radius: 15px;
+}
+
+.role-value.admin {
+    background: linear-gradient(135deg, #FFD700 0%, #FF6B00 100%);
+    color: #FFFFFF;
+}
+
+.role-value.controller {
+    background: linear-gradient(135deg, #FF6B00 0%, #FF4500 100%);
+    color: #FFFFFF;
+}
+
+.role-value.user {
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+    border: 1px solid #FFD700;
+}
+
+.main-title {
+    font-size: 4rem;
+    color: #FFD700;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    animation: glow 2s ease-in-out infinite alternate;
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    font-size: 2rem;
+    color: #FFFFFF;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700, 0 0 30px #FFD700;
+    }
+    to {
+        text-shadow: 0 0 20px #FFD700, 0 0 40px #FFD700, 0 0 60px #FFD700;
+    }
+}
+
+/* 倒计时 */
+.countdown {
+    background: rgba(255, 215, 0, 0.15);
+    padding: 30px 50px;
+    border-radius: 20px;
+    border: 3px solid #FFD700;
+    margin-bottom: 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.countdown h2 {
+    color: #FFD700;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+}
+
+.countdown-timer {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.time-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-block span {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #FF6B00 0%, #FF4500 100%);
+    padding: 15px 20px;
+    border-radius: 10px;
+    min-width: 80px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.time-block label {
+    color: #FFD700;
+    font-size: 1rem;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* 祝福语 */
+.blessings {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px 50px;
+    border-radius: 20px;
+    border: 2px solid #FFD700;
+    margin-bottom: 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+}
+
+.blessings h2 {
+    color: #FFD700;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+}
+
+.blessing-container {
+    position: relative;
+    padding: 0 50px;
+}
+
+.blessing-text {
+    font-size: 1.5rem;
+    color: #FFFFFF;
+    line-height: 1.8;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, #FFD700 0%, #FF6B00 100%);
+    border: none;
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.prev-btn:hover, .next-btn:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.prev-btn {
+    left: 0;
+}
+
+.next-btn {
+    right: 0;
+}
+
+/* 装饰图案 */
+.decorations {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.decorative-pattern {
+    position: absolute;
+    opacity: 0.1;
+}
+
+.pattern-1 {
+    top: 10%;
+    left: 5%;
+    font-size: 150px;
+    animation: float 6s ease-in-out infinite;
+}
+
+.pattern-2 {
+    bottom: 10%;
+    right: 5%;
+    font-size: 150px;
+    animation: float 6s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* 底部 */
+.footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 30px;
+    color: #FFD700;
+    font-size: 1.2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .user-role-display {
+        padding: 8px 20px;
+    }
+    
+    .role-label {
+        font-size: 0.9rem;
+    }
+    
+    .role-value {
+        font-size: 0.9rem;
+        padding: 3px 12px;
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .countdown-timer {
+        gap: 15px;
+    }
+    
+    .time-block span {
+        font-size: 2rem;
+        min-width: 60px;
+        padding: 10px 15px;
+    }
+    
+    .lantern {
+        width: 60px;
+        height: 75px;
+    }
+    
+    .lantern-left {
+        left: 20px;
+    }
+    
+    .lantern-right {
+        right: 20px;
+    }
+    
+    .blessings {
+        padding: 20px 30px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
+    .blessing-text {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-role-display {
+        padding: 6px 15px;
+        margin-bottom: 15px;
+    }
+    
+    .role-label {
+        font-size: 0.85rem;
+    }
+    
+    .role-value {
+        font-size: 0.85rem;
+        padding: 2px 10px;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .countdown {
+        padding: 20px 25px;
+    }
+    
+    .countdown h2 {
+        font-size: 1.3rem;
+    }
+    
+    .countdown-timer {
+        gap: 10px;
+    }
+    
+    .time-block span {
+        font-size: 1.5rem;
+        min-width: 50px;
+        padding: 8px 10px;
+    }
+    
+    .time-block label {
+        font-size: 0.8rem;
+    }
+}
+
+/* 登录样式 */
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-box {
+    background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+    border: 3px solid #FFD700;
+    border-radius: 20px;
+    padding: 40px 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-title {
+    text-align: center;
+    color: #FFD700;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: #FFD700;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.form-group input {
+    padding: 12px 15px;
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.form-group input:focus {
+    border-color: #FF6B00;
+    box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+}
+
+.login-btn {
+    padding: 15px;
+    background: linear-gradient(135deg, #FFD700 0%, #FF6B00 100%);
+    border: none;
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+.login-error {
+    color: #FF4444;
+    text-align: center;
+    font-size: 0.9rem;
+    min-height: 20px;
+    margin-top: 5px;
+}
+
+.login-hint {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    margin-top: 15px;
+}
+
+/* 退出登录按钮 */
+.logout-btn {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #FF6B00 0%, #FF4500 100%);
+    border: 2px solid #FFD700;
+    border-radius: 25px;
+    color: #FFFFFF;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.logout-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* 登录表单响应式 */
+@media (max-width: 480px) {
+    .login-box {
+        padding: 30px 20px;
+    }
+    
+    .login-title {
+        font-size: 1.5rem;
+    }
+    
+    .form-group input {
+        font-size: 0.9rem;
+    }
+    
+    .login-btn {
+        font-size: 1rem;
+        padding: 12px;
+    }
+}
+
+/* 切换链接样式 */
+.switch-form {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    margin-top: 15px;
+}
+
+.switch-link {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.switch-link:hover {
+    color: #FF6B00;
+    text-decoration: underline;
+}
+
+/* 管理员面板 */
+.admin-panel {
+    background: rgba(139, 0, 0, 0.4);
+    border: 2px solid #FFD700;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 800px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.admin-title {
+    color: #FFD700;
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 25px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.admin-form {
+    background: rgba(255, 215, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.admin-form h3 {
+    color: #FFD700;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.admin-input-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.admin-input {
+    flex: 1;
+    min-width: 150px;
+    padding: 10px 15px;
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.admin-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.admin-input:focus {
+    border-color: #FF6B00;
+    box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+}
+
+.admin-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.admin-btn.add-btn {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.admin-btn.add-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.admin-btn.delete-btn {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    padding: 8px 15px;
+    font-size: 0.85rem;
+}
+
+.admin-btn.delete-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.admin-table-container {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.admin-table thead {
+    background: linear-gradient(135deg, #FFD700 0%, #FF6B00 100%);
+}
+
+.admin-table th {
+    padding: 12px 15px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.admin-table td {
+    padding: 12px 15px;
+    color: #FFFFFF;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+    font-size: 0.9rem;
+}
+
+.admin-table tbody tr:hover {
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.role-badge.admin {
+    background: linear-gradient(135deg, #FFD700 0%, #FF6B00 100%);
+    color: #FFFFFF;
+}
+
+.role-badge.user {
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+    border: 1px solid #FFD700;
+}
+
+.role-badge.controller {
+    background: linear-gradient(135deg, #FF6B00 0%, #FF4500 100%);
+    color: #FFFFFF;
+}
+
+/* 管理员面板响应式 */
+@media (max-width: 768px) {
+    .admin-panel {
+        padding: 20px;
+    }
+    
+    .admin-title {
+        font-size: 1.5rem;
+    }
+    
+    .admin-input-group {
+        flex-direction: column;
+    }
+    
+    .admin-input {
+        min-width: 100%;
+    }
+    
+    .admin-btn.add-btn {
+        width: 100%;
+    }
+    
+    .admin-table {
+        font-size: 0.85rem;
+    }
+    
+    .admin-table th,
+    .admin-table td {
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-panel {
+        padding: 15px;
+    }
+    
+    .admin-form {
+        padding: 15px;
+    }
+    
+    .admin-table {
+        font-size: 0.8rem;
+    }
+    
+    .role-badge {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+    }
+}
+
+/* 状态标签 */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status-badge.approved {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: #FFFFFF;
+}
+
+.status-badge.pending {
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+    border: 1px solid #FFC107;
+}
+
+/* 批准和拒绝按钮 */
+.admin-btn.approve-btn {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+}
+
+.admin-btn.approve-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.admin-btn.reject-btn {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    padding: 6px 12px;
+    font-size: 0.8rem;
+}
+
+.admin-btn.reject-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* 站点控制样式 */
+.site-control {
+    border: 2px solid #FF6B00;
+}
+
+.control-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.admin-btn.control-btn {
+    background: linear-gradient(135deg, #FF6B00 0%, #FF4500 100%);
+    padding: 12px 25px;
+    font-size: 1rem;
+    min-width: 120px;
+}
+
+.admin-btn.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.admin-btn.control-btn.active {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.site-status {
+    color: #FFD700;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.site-status.closed {
+    color: #dc3545;
+}
+
+/* 站点控制响应式 */
+@media (max-width: 768px) {
+    .control-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .admin-btn.control-btn {
+        width: 100%;
+    }
+    
+    .site-status {
+        text-align: center;
+    }
+}
+
+/* 角色选择框 */
+.role-select {
+    flex: 1;
+    min-width: 120px;
+    padding: 10px 15px;
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.role-select option {
+    background: #8B0000;
+    color: #FFFFFF;
+}
+
+.role-select:focus {
+    border-color: #FF6B00;
+    box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+}
+
+/* 控制员面板 */
+.controller-panel {
+    background: rgba(139, 0, 0, 0.4);
+    border: 2px solid #FF6B00;
+    border-radius: 15px;
+    padding: 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 控制员面板响应式 */
+@media (max-width: 768px) {
+    .controller-panel {
+        padding: 20px;
+    }
+    
+    .controller-panel .admin-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .controller-panel {
+        padding: 15px;
+    }
+}

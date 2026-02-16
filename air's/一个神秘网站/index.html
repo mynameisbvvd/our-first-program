@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026新春快乐 - 马年大吉</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 登录遮罩层 -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-container">
+            <div class="login-box">
+                <!-- 登录表单 -->
+                <div id="loginFormContainer">
+                    <h2 class="login-title">🎊 2026新春登录 🎊</h2>
+                    <form class="login-form" id="loginForm">
+                        <div class="form-group">
+                            <label for="username">用户名</label>
+                            <input type="text" id="username" name="username" required placeholder="请输入用户名">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            <input type="password" id="password" name="password" required placeholder="请输入密码">
+                        </div>
+                        <button type="submit" class="login-btn">登录</button>
+                        <p class="login-error" id="loginError"></p>
+                    </form>
+                    <p class="switch-form">还没有账号？<a href="#" id="showRegister" class="switch-link">立即注册</a></p>
+                </div>
+
+                <!-- 注册表单 -->
+                <div id="registerFormContainer" style="display: none;">
+                    <h2 class="login-title">🎊 2026新春注册 🎊</h2>
+                    <form class="login-form" id="registerForm">
+                        <div class="form-group">
+                            <label for="regUsername">用户名</label>
+                            <input type="text" id="regUsername" name="regUsername" required placeholder="请输入用户名">
+                        </div>
+                        <div class="form-group">
+                            <label for="regPassword">密码</label>
+                            <input type="password" id="regPassword" name="regPassword" required placeholder="请输入密码">
+                        </div>
+                        <div class="form-group">
+                            <label for="regConfirmPassword">确认密码</label>
+                            <input type="password" id="regConfirmPassword" name="regConfirmPassword" required placeholder="请再次输入密码">
+                        </div>
+                        <button type="submit" class="login-btn">注册</button>
+                        <p class="login-error" id="registerError"></p>
+                    </form>
+                    <p class="switch-form">已有账号？<a href="#" id="showLogin" class="switch-link">立即登录</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 烟花画布 -->
+    <canvas id="fireworks"></canvas>
+    
+    <!-- 主容器 -->
+    <div class="container" id="mainContent" style="display: none;">
+        <!-- 灯笼装饰 -->
+        <div class="lantern lantern-left"></div>
+        <div class="lantern lantern-right"></div>
+        
+        <!-- 标题区域 -->
+        <header class="header">
+            <!-- 用户权限显示 -->
+            <div class="user-role-display" id="userRoleDisplay">
+                <span class="role-label">当前权限：</span>
+                <span class="role-value" id="userRoleValue">普通用户</span>
+            </div>
+            <h1 class="main-title">2026新春快乐</h1>
+            <p class="subtitle">马年大吉 万事如意</p>
+        </header>
+        
+        <!-- 倒计时 -->
+        <div class="countdown">
+            <h2>距离2026年春节还有</h2>
+            <div class="countdown-timer">
+                <div class="time-block">
+                    <span id="days">00</span>
+                    <label>天</label>
+                </div>
+                <div class="time-block">
+                    <span id="hours">00</span>
+                    <label>时</label>
+                </div>
+                <div class="time-block">
+                    <span id="minutes">00</span>
+                    <label>分</label>
+                </div>
+                <div class="time-block">
+                    <span id="seconds">00</span>
+                    <label>秒</label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 祝福语轮播 -->
+        <div class="blessings">
+            <h2>新春祝福</h2>
+            <div class="blessing-container">
+                <div class="blessing-text" id="blessingText">
+                    祝您马年吉祥，马到成功，一马当先！
+                </div>
+                <button class="prev-btn" id="prevBtn">❮</button>
+                <button class="next-btn" id="nextBtn">❯</button>
+            </div>
+        </div>
+        
+        <!-- 装饰元素 -->
+        <div class="decorations">
+            <div class="decorative-pattern pattern-1"></div>
+            <div class="decorative-pattern pattern-2"></div>
+        </div>
+        
+        <!-- 管理员面板 -->
+        <div class="admin-panel" id="adminPanel" style="display: none;">
+            <h2 class="admin-title">👑 用户管理</h2>
+            
+            <!-- 一键关站控制 -->
+            <div class="admin-form site-control">
+                <h3>🔒 站点控制</h3>
+                <div class="control-buttons">
+                    <button id="toggleSiteBtn" class="admin-btn control-btn">关闭站点</button>
+                    <span id="siteStatus" class="site-status">站点状态：开启</span>
+                </div>
+            </div>
+            
+            <!-- 添加用户表单 -->
+            <div class="admin-form">
+                <h3>添加新用户</h3>
+                <div class="admin-input-group">
+                    <input type="text" id="adminAddUsername" placeholder="用户名" class="admin-input">
+                    <input type="password" id="adminAddPassword" placeholder="密码" class="admin-input">
+                    <select id="adminAddRole" class="admin-input role-select">
+                        <option value="user">普通用户</option>
+                        <option value="controller">控制员</option>
+                        <option value="admin">管理员</option>
+                    </select>
+                    <button id="adminAddBtn" class="admin-btn add-btn">添加用户</button>
+                </div>
+            </div>
+            
+            <!-- 用户列表表格 -->
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>用户名</th>
+                            <th>密码</th>
+                            <th>角色</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- 用户数据将通过JS动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 控制员面板 -->
+        <div class="controller-panel" id="controllerPanel" style="display: none;">
+            <h2 class="admin-title">🎮 站点控制</h2>
+            
+            <!-- 站点控制 -->
+            <div class="admin-form site-control">
+                <h3>🔒 站点开关</h3>
+                <div class="control-buttons">
+                    <button id="controllerToggleSiteBtn" class="admin-btn control-btn">关闭站点</button>
+                    <span id="controllerSiteStatus" class="site-status">站点状态：开启</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 退出登录按钮 -->
+        <button class="logout-btn" id="logoutBtn">退出登录</button>
+        
+        <!-- 底部信息 -->
+        <footer class="footer">
+            <p>🎊 恭祝您新春快乐，阖家幸福！🎊</p>
+        </footer>
+    </div>
+    <!--good-->
+    <script src="script.js"></script>
+</body>
+</html>
